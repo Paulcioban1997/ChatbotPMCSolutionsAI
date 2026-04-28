@@ -1,8 +1,8 @@
 import { anthropic } from "@ai-sdk/anthropic";
 
-export const DEFAULT_MODEL = anthropic("claude-haiku-4-5-20251001");
+export const DEFAULT_MODEL = anthropic("claude-sonnet-4-6");
 
-export const DEFAULT_CHAT_MODEL = "claude-sonnet-4-5";
+export const DEFAULT_CHAT_MODEL = "claude-sonnet-4-6";
 
 export const titleModel = {
   id: "claude-haiku-4-5-20251001",
@@ -28,8 +28,8 @@ export type ChatModel = {
 
 export const chatModels: ChatModel[] = [
   {
-    id: "claude-sonnet-4-5",
-    name: "Claude Sonnet 4.5",
+    id: "claude-sonnet-4-6",
+    name: "Claude Sonnet 4.6",
     provider: "anthropic",
     description: "Anthropic's most capable model with tool use and vision",
   },

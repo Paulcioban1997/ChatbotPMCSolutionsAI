@@ -1,5 +1,5 @@
 ---
-name: General Reply Style
+name: general-reply-style
 description: Controls tone, greeting style, and how the assistant talks to users in every reply.
 ---
 
