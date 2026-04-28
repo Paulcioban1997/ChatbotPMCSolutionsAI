@@ -15,6 +15,13 @@
       "when": 1714299600000,
       "tag": "0001_rag",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777391688396,
+      "tag": "0002_perpetual_snowbird",
+      "breakpoints": true
     }
   ]
 }
