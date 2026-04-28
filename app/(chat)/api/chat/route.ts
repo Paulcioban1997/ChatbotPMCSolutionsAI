@@ -16,9 +16,12 @@ import {
   allowedModelIds,
   chatModels,
   DEFAULT_CHAT_MODEL,
+  DEFAULT_MODEL,
   getCapabilities,
 } from "@/lib/ai/models";
 import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
+import { buildSystemPrompt } from "@/lib/system-prompt";
+import { createTools } from "@/lib/tools";
 import { getLanguageModel } from "@/lib/ai/providers";
 import { createDocument } from "@/lib/ai/tools/create-document";
 import { editDocument } from "@/lib/ai/tools/edit-document";
@@ -191,15 +194,22 @@ export async function POST(request: Request) {
     const stream = createUIMessageStream({
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,
       execute: async ({ writer: dataStream }) => {
+        const bearerToken = request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "") ?? "";
+
         const result = streamText({
           model: getLanguageModel(chatModel),
-          system: systemPrompt({ requestHints, supportsTools }),
+          system: buildSystemPrompt(),
           messages: modelMessages,
           stopWhen: stepCountIs(5),
           experimental_activeTools:
             isReasoningModel && !supportsTools
               ? []
               : [
+                  "searchDocuments",
+                  "getSkillDetails",
+                  "getItems",
+                  "getItemById",
+                  "submitAction",
                   "getWeather",
                   "createDocument",
                   "editDocument",
@@ -215,6 +225,7 @@ export async function POST(request: Request) {
             }),
           },
           tools: {
+            ...createTools(bearerToken),
             getWeather,
             createDocument: createDocument({
               session,
