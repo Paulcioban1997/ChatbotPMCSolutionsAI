@@ -29,16 +29,12 @@ export async function generateTitleFromUserMessage({
     model: getTitleModel(),
     system: titlePrompt,
     prompt: getTextFromMessage(message),
-    providerOptions: {
-      gateway: { order: titleModel.gatewayOrder },
-    },
   });
   return text
     .replace(/^[#*"\s]+/, "")
     .replace(/["]+$/, "")
     .trim();
 }
-
 export async function deleteTrailingMessages({ id }: { id: string }) {
   const session = await auth();
   if (!session?.user?.id) {
