@@ -90,6 +90,7 @@ export function ChatShell() {
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 z-0"
             >
+              {/* biome-ignore lint/performance/noImgElement: local static asset */}
               <img
                 alt=""
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] opacity-[0.06] blur-sm select-none"

@@ -17,7 +17,7 @@ export function createTools(_token: string) {
             `The name of the skill to load. Available names: ${skills.map((s) => s.name).join(", ")}`
           ),
       }),
-      execute: async ({ name }) => {
+      execute: ({ name }) => {
         const skill = getSkillByName(name);
         if (!skill) {
           return { error: `Skill "${name}" not found.` };

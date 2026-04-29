@@ -10,7 +10,7 @@ export const Greeting = () => {
         transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="absolute inset-0 rounded-full blur-3xl opacity-40 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 scale-110" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {/* biome-ignore lint/performance/noImgElement: local static asset */}
         <img
           alt="PMC Solutions AI"
           className="relative drop-shadow-[0_0_30px_rgba(99,102,241,0.6)]"

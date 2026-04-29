@@ -1,15 +1,17 @@
 (() => {
-  var script =
+  const script =
     document.currentScript ||
     (() => {
-      var scripts = document.getElementsByTagName("script");
-      return scripts[scripts.length - 1];
+      const scripts = document.getElementsByTagName("script");
+      return scripts.at(-1);
     })();
 
-  var token = script.getAttribute("data-token");
-  var origin = script.src ? new URL(script.src).origin : window.location.origin;
+  const token = script.getAttribute("data-token");
+  const origin = script.src
+    ? new URL(script.src).origin
+    : window.location.origin;
 
-  var iframe = document.createElement("iframe");
+  const iframe = document.createElement("iframe");
   iframe.src = origin;
   iframe.style.cssText = [
     "position:fixed",
