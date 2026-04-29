@@ -1,13 +1,13 @@
-(function () {
-  var script = document.currentScript || (function () {
-    var scripts = document.getElementsByTagName("script");
-    return scripts[scripts.length - 1];
-  })();
+(() => {
+  var script =
+    document.currentScript ||
+    (() => {
+      var scripts = document.getElementsByTagName("script");
+      return scripts[scripts.length - 1];
+    })();
 
   var token = script.getAttribute("data-token");
-  var origin = script.src
-    ? new URL(script.src).origin
-    : window.location.origin;
+  var origin = script.src ? new URL(script.src).origin : window.location.origin;
 
   var iframe = document.createElement("iframe");
   iframe.src = origin;
@@ -24,11 +24,8 @@
   ].join(";");
   iframe.setAttribute("allow", "microphone");
 
-  iframe.addEventListener("load", function () {
-    iframe.contentWindow.postMessage(
-      { type: "auth-token", token: token },
-      origin
-    );
+  iframe.addEventListener("load", () => {
+    iframe.contentWindow.postMessage({ type: "auth-token", token }, origin);
   });
 
   document.body.appendChild(iframe);

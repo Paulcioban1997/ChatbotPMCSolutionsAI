@@ -13,7 +13,9 @@ export default function DocumentsPage() {
     const form = e.currentTarget;
     const fileInput = form.elements.namedItem("file") as HTMLInputElement;
     const file = fileInput.files?.[0];
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     setStatus("uploading");
     setMessage("");
@@ -60,18 +62,18 @@ export default function DocumentsPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <input
-            name="file"
-            type="file"
             accept=".txt,.md,text/plain,text/markdown"
-            required
             className="block w-full text-sm border border-zinc-300 dark:border-zinc-700 rounded-lg p-2 bg-white dark:bg-zinc-900"
+            name="file"
+            required
+            type="file"
           />
           <button
-            type="submit"
-            disabled={status === "uploading"}
             className="w-full py-2 px-4 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-medium disabled:opacity-50"
+            disabled={status === "uploading"}
+            type="submit"
           >
             {status === "uploading" ? "Uploading…" : "Upload"}
           </button>

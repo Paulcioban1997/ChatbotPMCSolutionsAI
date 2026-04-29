@@ -17,7 +17,9 @@ export const skills: Skill[] = fs
   .filter((entry) => entry.isDirectory())
   .flatMap((entry) => {
     const skillFile = path.join(skillsDir, entry.name, "SKILL.md");
-    if (!fs.existsSync(skillFile)) return [];
+    if (!fs.existsSync(skillFile)) {
+      return [];
+    }
     const { data, content } = matter.read(skillFile);
     return [
       {

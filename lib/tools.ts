@@ -1,7 +1,7 @@
 import { tool } from "ai";
 import { z } from "zod";
-import { skills, getSkillByName } from "./system-prompt";
 import { findRelevantChunks } from "./rag";
+import { getSkillByName, skills } from "./system-prompt";
 
 // TODO: implement real API calls using createApiClient
 
@@ -19,7 +19,9 @@ export function createTools(_token: string) {
       }),
       execute: async ({ name }) => {
         const skill = getSkillByName(name);
-        if (!skill) return { error: `Skill "${name}" not found.` };
+        if (!skill) {
+          return { error: `Skill "${name}" not found.` };
+        }
         return { name: skill.name, instructions: skill.body };
       },
     }),

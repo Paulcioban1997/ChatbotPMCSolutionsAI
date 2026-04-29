@@ -42,11 +42,10 @@ export async function POST(request: Request): Promise<NextResponse> {
   // 5. Upload the original file to Vercel Blob
   let blob: Awaited<ReturnType<typeof put>>;
   try {
-    blob = await put(
-      `documents/${session.user.id}/${file.name}`,
-      file,
-      { access: "public", allowOverwrite: true }
-    );
+    blob = await put(`documents/${session.user.id}/${file.name}`, file, {
+      access: "public",
+      allowOverwrite: true,
+    });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Blob upload failed";
     return NextResponse.json({ error: `Blob error: ${msg}` }, { status: 500 });

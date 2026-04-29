@@ -16,12 +16,9 @@ import {
   allowedModelIds,
   chatModels,
   DEFAULT_CHAT_MODEL,
-  DEFAULT_MODEL,
   getCapabilities,
 } from "@/lib/ai/models";
-import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
-import { buildSystemPrompt } from "@/lib/system-prompt";
-import { createTools } from "@/lib/tools";
+import type { RequestHints } from "@/lib/ai/prompts";
 import { getLanguageModel } from "@/lib/ai/providers";
 import { createDocument } from "@/lib/ai/tools/create-document";
 import { editDocument } from "@/lib/ai/tools/edit-document";
@@ -43,6 +40,8 @@ import {
 import type { DBMessage } from "@/lib/db/schema";
 import { ChatbotError } from "@/lib/errors";
 import { checkIpRateLimit } from "@/lib/ratelimit";
+import { buildSystemPrompt } from "@/lib/system-prompt";
+import { createTools } from "@/lib/tools";
 import type { ChatMessage } from "@/lib/types";
 import { convertToUIMessages, generateUUID } from "@/lib/utils";
 import { generateTitleFromUserMessage } from "../../actions";
@@ -194,7 +193,9 @@ export async function POST(request: Request) {
     const stream = createUIMessageStream({
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,
       execute: async ({ writer: dataStream }) => {
-        const bearerToken = request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "") ?? "";
+        const bearerToken =
+          request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "") ??
+          "";
 
         const result = streamText({
           model: getLanguageModel(chatModel),
