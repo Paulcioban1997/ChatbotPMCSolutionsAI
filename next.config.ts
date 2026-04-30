@@ -42,6 +42,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  serverExternalPackages: ["jspdf", "fflate"],
   experimental: {
     prefetchInlining: true,
     cachedNavigations: true,
