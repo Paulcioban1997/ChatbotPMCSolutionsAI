@@ -29,11 +29,20 @@ export const Greeting = () => {
       </motion.div>
       <motion.div
         animate={{ opacity: 1, y: 0 }}
+        className="text-center text-primary/80 text-base font-medium"
+        initial={{ opacity: 0, y: 10 }}
+        transition={{ delay: 0.45, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        Jarvis PMC Bot
+      </motion.div>
+      <motion.div
+        animate={{ opacity: 1, y: 0 }}
         className="mt-3 text-center text-muted-foreground/80 text-sm"
         initial={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        Pose une question, génère du code, ou explore tes idées.
+        Bonjour ! Je suis Jarvis, ton assistant IA PMC. Pose une question,
+        génère du code, ou explore tes idées.
       </motion.div>
     </div>
   );

@@ -60,6 +60,7 @@ export async function ingestDocument({
   userId: string;
 }) {
   const chunks = chunkText(text);
+  console.log("[RAG] ingestDocument:", fileName, "→", chunks.length, "chunks");
   if (chunks.length === 0) {
     return { chunks: 0 };
   }
@@ -71,6 +72,9 @@ export async function ingestDocument({
 
   for (let i = 0; i < chunks.length; i++) {
     const vectorStr = `[${embeddings[i].join(",")}]`;
+    console.log(
+      `[RAG] inserting chunk ${i + 1}/${chunks.length} for user ${userId}`
+    );
     await client`
       INSERT INTO "DocumentChunk" ("fileName", "blobUrl", "content", "embedding", "userId")
       VALUES (${fileName}, ${blobUrl}, ${chunks[i]}, ${vectorStr}::vector, ${userId}::uuid)
@@ -98,20 +102,35 @@ export async function findRelevantChunks(
   query: string,
   limit = 5
 ): Promise<ChunkResult[]> {
+  console.log("[RAG] findRelevantChunks query:", query);
+
   const { embedding } = await embed({ model: embeddingModel, value: query });
   const vectorStr = `[${embedding.join(",")}]`;
 
-  const results = await client<ChunkResult[]>`
+  // First: log all chunks + their raw similarity scores (no threshold)
+  const allResults = await client<ChunkResult[]>`
     SELECT
       "fileName",
       "content",
       (1 - ("embedding" <=> ${vectorStr}::vector))::float AS similarity
     FROM "DocumentChunk"
     WHERE "embedding" IS NOT NULL
-      AND 1 - ("embedding" <=> ${vectorStr}::vector) > 0.4
     ORDER BY similarity DESC
-    LIMIT ${limit}
+    LIMIT 10
   `;
+
+  console.log(
+    "[RAG] all chunks (no threshold):",
+    allResults.map((r) => ({
+      fileName: r.fileName,
+      similarity: r.similarity,
+      preview: r.content.slice(0, 80),
+    }))
+  );
+
+  const results = allResults.filter((r) => r.similarity > 0.2).slice(0, limit);
+
+  console.log("[RAG] results after threshold (>0.2):", results.length);
 
   return results;
 }

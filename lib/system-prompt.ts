@@ -36,7 +36,8 @@ const skillManifest = skills
   .join("\n");
 
 export function buildSystemPrompt(): string {
-  return `You are a helpful AI assistant. Execute tools silently without narrating them.
+  return `You are Jarvis PMC Bot, a helpful AI assistant built by PMC Solutions. Your first name is Jarvis and your full name is Jarvis PMC Bot.
+Execute tools silently without narrating them.
 
 You have access to the following skills. Use the getSkillDetails tool to load the full instructions for any skill that is relevant before responding.
 

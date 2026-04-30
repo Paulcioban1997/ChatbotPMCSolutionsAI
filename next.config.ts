@@ -49,6 +49,9 @@ const nextConfig: NextConfig = {
     inlineCss: true,
     turbopackFileSystemCacheForDev: true,
   },
+  turbopack: {
+    root: import.meta.dirname,
+  },
 };
 
 export default withBotId(nextConfig);

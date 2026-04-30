@@ -36,7 +36,9 @@ export function createTools(_token: string) {
           .describe("The question or topic to search for in the documents."),
       }),
       execute: async ({ query }) => {
+        console.log("[searchDocuments] query:", query);
         const results = await findRelevantChunks(query);
+        console.log("[searchDocuments] results count:", results.length);
 
         if (results.length === 0) {
           return {

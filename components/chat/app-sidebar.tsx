@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  BookOpenIcon,
+  ChevronDownIcon,
   MessageSquareIcon,
   PanelLeftIcon,
   PenSquareIcon,
@@ -13,6 +15,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
+import { KnowledgeBasePanel } from "@/components/chat/knowledge-base-panel";
 import {
   getChatHistoryPaginationKey,
   SidebarHistory,
@@ -49,6 +52,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
   const { setOpenMobile, toggleSidebar } = useSidebar();
   const { mutate } = useSWRConfig();
   const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false);
+  const [showKnowledgeBase, setShowKnowledgeBase] = useState(false);
 
   const handleDeleteAll = () => {
     setShowDeleteAllDialog(false);
@@ -133,6 +137,30 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             </SidebarGroupContent>
           </SidebarGroup>
           <SidebarHistory user={user} />
+          {user && (
+            <SidebarGroup className="pt-1">
+              <button
+                className="flex w-full items-center justify-between px-2 py-1.5 text-[12px] font-medium text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors group-data-[collapsible=icon]:hidden"
+                onClick={() => setShowKnowledgeBase((v) => !v)}
+                type="button"
+              >
+                <span className="flex items-center gap-1.5">
+                  <BookOpenIcon className="size-3.5" />
+                  Base de connaissances
+                </span>
+                <ChevronDownIcon
+                  className={`size-3.5 transition-transform ${
+                    showKnowledgeBase ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {showKnowledgeBase && (
+                <SidebarGroupContent>
+                  <KnowledgeBasePanel />
+                </SidebarGroupContent>
+              )}
+            </SidebarGroup>
+          )}
         </SidebarContent>
         <SidebarFooter className="border-t border-sidebar-border pt-2 pb-3">
           {user && <SidebarUserNav user={user} />}

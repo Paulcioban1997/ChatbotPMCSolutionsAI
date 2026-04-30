@@ -43,7 +43,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   let blob: Awaited<ReturnType<typeof put>>;
   try {
     blob = await put(`documents/${session.user.id}/${file.name}`, file, {
-      access: "public",
+      access: "private",
       allowOverwrite: true,
     });
   } catch (e) {
