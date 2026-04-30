@@ -53,6 +53,7 @@
     "format": "^0.2.2",
     "framer-motion": "^11.3.19",
     "gray-matter": "^4.0.3",
+    "jspdf": "^4.2.1",
     "katex": "^0.16.28",
     "lucide-react": "^0.446.0",
     "motion": "^12.23.26",
@@ -86,6 +87,7 @@
     "tailwindcss-animate": "^1.0.7",
     "use-stick-to-bottom": "^1.1.1",
     "usehooks-ts": "^3.1.0",
+    "xlsx": "^0.18.5",
     "zod": "^3.25.76"
   },
   "devDependencies": {

@@ -1,5 +1,7 @@
+import { DownloadIcon } from "lucide-react";
 import { parse, unparse } from "papaparse";
 import { toast } from "sonner";
+import { utils, writeFile } from "xlsx";
 import { Artifact } from "@/components/chat/create-artifact";
 import {
   CopyIcon,
@@ -78,6 +80,21 @@ export const sheetArtifact = new Artifact<"sheet", Metadata>({
 
         navigator.clipboard.writeText(cleanedCsv);
         toast.success("Copied csv to clipboard!");
+      },
+    },
+    {
+      icon: <DownloadIcon size={18} />,
+      description: "Download as .xlsx",
+      onClick: ({ content }) => {
+        const parsed = parse<string[]>(content, { skipEmptyLines: true });
+        const nonEmptyRows = parsed.data.filter((row) =>
+          row.some((cell) => cell.trim() !== "")
+        );
+        const ws = utils.aoa_to_sheet(nonEmptyRows);
+        const wb = utils.book_new();
+        utils.book_append_sheet(wb, ws, "Sheet1");
+        writeFile(wb, "document.xlsx");
+        toast.success("Downloaded as .xlsx!");
       },
     },
   ],

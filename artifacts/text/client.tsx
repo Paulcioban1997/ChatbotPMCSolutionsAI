@@ -1,3 +1,4 @@
+import { DownloadIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Artifact } from "@/components/chat/create-artifact";
 import { DiffView } from "@/components/chat/diffview";
@@ -144,6 +145,18 @@ export const textArtifact = new Artifact<"text", TextArtifactMetadata>({
       onClick: ({ content }) => {
         navigator.clipboard.writeText(content);
         toast.success("Copied to clipboard!");
+      },
+    },
+    {
+      icon: <DownloadIcon size={18} />,
+      description: "Download as PDF",
+      onClick: async ({ content }) => {
+        const { jsPDF } = await import("jspdf");
+        const doc = new jsPDF();
+        const lines = doc.splitTextToSize(content, 180);
+        doc.text(lines, 15, 20);
+        doc.save("document.pdf");
+        toast.success("Downloaded as PDF!");
       },
     },
   ],
