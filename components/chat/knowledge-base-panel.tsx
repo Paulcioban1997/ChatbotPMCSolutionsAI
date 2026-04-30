@@ -83,7 +83,7 @@ export function KnowledgeBasePanel() {
   }, []);
 
   const onDrop = useCallback(
-    (e: React.DragEvent<HTMLButtonElement>) => {
+    (e: React.DragEvent) => {
       e.preventDefault();
       const file = e.dataTransfer.files[0];
       if (file) {
